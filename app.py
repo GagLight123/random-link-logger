@@ -6,7 +6,7 @@ import requests  # <-- add this
 app = Flask(__name__)
 
 # Discord webhook URL
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/your_webhook_here"  # <-- paste yours here
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1399813617347723526/Ipf2egyjiL7OkiZgUYMSDZM6FA7xvqLIcMHMXeyQsvXYZD8ADsM0Ih1MuWc0WyWlKBZR"  # <-- paste yours here
 
 # Links to redirect to
 links = [
